@@ -12,6 +12,10 @@ on:
       - apis/poi/**
       - .github/workflows/POI-CI.yml
 
+defaults:
+  run:
+    working-directory: apis/poi
+
 jobs:
   build_and_test:
     runs-on: ubuntu-latest
@@ -23,13 +27,13 @@ jobs:
         uses: actions/setup-dotnet@v1
 
       - name: Install dependencies
-        run: dotnet restore apis/poi/web/*.csproj
+        run: dotnet restore ./web/*.csproj
 
       - name: .NET Build Web
-        run: dotnet build --configuration Release --no-restore apis/poi/web/*.csproj
+        run: dotnet build --configuration Release --no-restore ./web/*.csproj
 
       - name: .NET Build Unit Tests
-        run: dotnet build --configuration Release apis/poi/tests/UnitTests/UnitTests.csproj
+        run: dotnet build --configuration Release ./tests/UnitTests/UnitTests.csproj
 
       - name: .NET Test
-        run: dotnet test --no-restore --verbosity normal apis/poi/tests/UnitTests
+        run: dotnet test --no-restore --verbosity normal ./tests/UnitTests
