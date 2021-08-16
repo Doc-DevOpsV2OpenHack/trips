@@ -22,7 +22,7 @@ jobs:
         uses: actions/setup-go@v2
 
       - name: Build
-        run: go run ./apis/trips/.
+        run: go run ./apis/trips/tripsgo.
 
       - name: Test
-        run: go test ./tripgo -run Unit
+        run: go test ./apis/trips/tripsgo. -run Unit
