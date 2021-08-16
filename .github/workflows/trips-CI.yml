@@ -18,14 +18,17 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: set context
+        run: cd ./apis/trips/
+
       - name: Set up Go
         uses: actions/setup-go@v2
 
       - name: dependencies
-        run: go get ./apis/trips/tripsgo/
+        run: go get ./...
 
       - name: Build
-        run: go build ./apis/trips/tripsgo/
+        run: go build
 
       - name: Test
         run: go test ./apis/trips/tripsgo/ -run Unit
