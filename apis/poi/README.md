@@ -4,6 +4,9 @@
 ## Overview
 
 ## Build the Application
+``` bash
+dotnet build
+```
 
 ## Tests
 
