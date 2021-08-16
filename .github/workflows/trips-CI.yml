@@ -25,10 +25,10 @@ jobs:
         uses: actions/setup-go@v2
 
       - name: dependencies
-        run: go get
+        run: go get .
 
       - name: Build
-        run: go build
+        run: go build .
 
       - name: Test
         run: go test ./apis/trips/tripsgo/ -run Unit
