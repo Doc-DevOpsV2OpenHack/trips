@@ -3,13 +3,13 @@ on:
   pull_request:
     branches: [master, ch3]
     paths:
-      - apis/trips/**
+      - apis/userprofile/**
       - .github/workflows/userprofile-CI.yml
 
   push:
     branches: [master, ch3]
     paths:
-      - apis/trips/**
+      - apis/userprofile/**
       - .github/workflows/userprofile-CI.yml
 
 defaults:
