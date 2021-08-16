@@ -26,6 +26,7 @@ jobs:
       - name: Switch Directory
         run: |
           cd ./apis/trips
+          pwd
           ls
 
       # - name: Build
