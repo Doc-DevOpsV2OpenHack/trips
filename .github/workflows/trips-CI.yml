@@ -18,17 +18,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Switch Directory
-        run: |
-          cd ./apis/trips
-          pwd
-          ls
-
       - name: Set up Go
         uses: actions/setup-go@v2
 
       - name: Build
-        run: go build
+        run: go build -v ./apis/trips/...
 
       - name: Test
         run: go test ./tripgo -run Unit
