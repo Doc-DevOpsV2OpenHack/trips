@@ -28,8 +28,11 @@ jobs:
           cd ./apis/trips
           ls
 
+      - name: Get Dependencies
+        run: go get ./...
+
       - name: Build
-        run: go build
+        run: go build -v .
 
       - name: Test
         run: go test -v ./tests/
