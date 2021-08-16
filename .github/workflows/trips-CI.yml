@@ -16,9 +16,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Set up Go
-        uses: actions/setup-go@v2
-
       - uses: actions/checkout@v2
 
       - name: Switch Directory
@@ -27,8 +24,11 @@ jobs:
           pwd
           ls
 
-      # - name: Build
-      #   run: go run main.go
+      - name: Set up Go
+        uses: actions/setup-go@v2
+
+      - name: Build
+        run: go build
 
       - name: Test
         run: go test ./tripgo -run Unit
