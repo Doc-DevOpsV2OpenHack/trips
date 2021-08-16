@@ -17,7 +17,7 @@ defaults: # this will likely need to be hinted as the 'cd' command may not work 
     working-directory: apis/trips
 
 jobs:
-  build:
+  build_and_test:
     runs-on: ubuntu-latest
     steps:
       - name: Set up Go 1.x

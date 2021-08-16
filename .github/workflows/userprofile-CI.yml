@@ -17,7 +17,7 @@ defaults:
     working-directory: apis/userprofile/
 
 jobs:
-  build:
+  build_and_test:
     runs-on: ubuntu-latest
 
     # from the docs.  Not needed (but cool)  since we will build
