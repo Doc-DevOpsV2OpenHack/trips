@@ -1,4 +1,4 @@
-name: POI-CD
+name: trips-CD
 on:
   push:
     branches: [master, ch4]
