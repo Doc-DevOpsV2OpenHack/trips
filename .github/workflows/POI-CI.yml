@@ -1,0 +1,51 @@
+name: POI-CI
+on:
+  pull_request:
+    branches: [master, ch3]
+    paths:
+      - apis/poi/**
+      - .github/workflows/POI-CI.yml
+
+  push:
+    branches: [master, ch3]
+    paths:
+      - apis/poi/**
+      - .github/workflows/POI-CI.yml
+
+defaults:
+  run:
+    working-directory: apis/poi
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: CHECKOUT CURRENT REPO
+        uses: actions/checkout@v2
+
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+
+      - name: Install dependencies
+        run: dotnet restore ./web/*.csproj
+
+      - name: .NET Build Web
+        run: dotnet build --configuration Release --no-restore ./web/*.csproj
+
+      - name: .NET Build Unit Tests
+        run: dotnet build --configuration Release ./tests/UnitTests/UnitTests.csproj
+
+      - name: .NET Test
+        run: dotnet test --no-restore --verbosity normal ./tests/UnitTests
+        
+      - uses: nashmaniac/create-issue-action@v1.1
+        if: failure()
+        name: Create Issue Action
+        with:
+          title: Build Failed
+          token: ${{secrets.GITHUB_TOKEN}}
+          assignees: ${{github.actor}}
+          labels: worflow-failed
+          body: |
+            ${{ github.workflow }} Workflow failed for commit ${{github.sha}}
+            Build Log: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}

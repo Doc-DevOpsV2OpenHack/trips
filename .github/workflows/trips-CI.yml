@@ -1,0 +1,33 @@
+name: trips-CI
+on:
+  pull_request:
+    branches: [master, ch3]
+    paths:
+      - apis/trips/**
+      - .github/workflows/trips-CI.yml
+
+  push:
+    branches: [master, ch3]
+    paths:
+      - apis/trips/**
+      - .github/workflows/trips-CI.yml
+
+defaults: # this will likely need to be hinted as the 'cd' command may not work well with go
+  run:
+    working-directory: apis/trips
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Go 1.x
+        uses: actions/setup-go@v2
+
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v2
+
+      - name: Build
+        run: go build -v .
+
+      - name: Test
+        run: go test -v ./tests/.
