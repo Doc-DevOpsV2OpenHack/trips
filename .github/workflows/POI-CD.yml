@@ -22,10 +22,10 @@ jobs:
         run: docker login $registry -u ${{ secrets.ACR_USER }} -p ${{ secrets.ACR_KEY }}
 
       - name: Docker build
-        run: docker build -t $registry/$repository:${{github.run_id}} --build-arg build_version=${{github.run_id}} $docker_path
+        run: docker build -t $registry/$repository:${{github.run_number}} --build-arg build_version=${{github.run_number}} $docker_path
 
       - name: Docker Push
-        run: docker push $registry/$repository:${{github.run_id}}
+        run: docker push $registry/$repository:${{github.run_number}}
 
       - uses: nashmaniac/create-issue-action@v1.1
         if: failure()
