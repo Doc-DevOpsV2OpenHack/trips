@@ -28,3 +28,18 @@ jobs:
           java-version: 1.8
       - name: Build with Maven
         run: mvn -B package --file pom.xml
+      - uses: actions/github-script@4
+        if: failure()
+        with:
+          script: |
+            let body = "${{ env.build_name }} Worflow Failure \n Build Number:
+            ${{ github.run_number }} \n Build Log: https://github.com/${{
+            github.repository }}/actions/runs/${{ github.run_id }} \n SHA: [${{
+            github.sha }}](https://github.com/${{ github.repository
+            }}/commit/${{ github.sha }}) \n";
+            github.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: "${{ env.build_name }} Workflow ${{ github.run_number }} Failed! ",
+              body: body
+            });
