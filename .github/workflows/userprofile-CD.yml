@@ -8,7 +8,7 @@ on:
 
 # Variables used in the jobs
 env:
-  registry: openhack9iw8z9x2acr
+  registry: openhack9iw8z9x2acr.azurecr.io
   repository: devopsoh/api-userprofile
   docker_path: apis/userprofile
 
