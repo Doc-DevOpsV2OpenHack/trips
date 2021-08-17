@@ -22,7 +22,19 @@ jobs:
         run: docker login $registry -u ${{ secrets.ACR_USER }} -p ${{ secrets.ACR_KEY }}
 
       - name: Docker build
-        run: docker build -t $registry/$repository:${{github.run_number}} --build-arg build_version=${{github.run_number}} $docker_path
+        run: docker build -t $registry/$repository:${{github.run_id}} --build-arg build_version=${{github.run_id}} $docker_path
 
       - name: Docker Push
-        run: docker push $registry/$repository:${{github.run_number}}
+        run: docker push $registry/$repository:${{github.run_id}}
+
+      - uses: nashmaniac/create-issue-action@v1.1
+        if: failure()
+        name: Create Issue Action
+        with:
+          title: Build Failed
+          token: ${{secrets.GITHUB_TOKEN}}
+          assignees: ${{github.actor}}
+          labels: worflow-failed
+          body: |
+            ${{ github.workflow }} Workflow failed for commit ${{github.sha}}
+            Build Log: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
