@@ -1,17 +1,17 @@
-name: POI-CD
+name: userprofile-CD
 on:
   push:
     branches: [master, ch4]
     paths:
-      - apis/poi/**
-      - .github/workflows/POI-CD.yml
+      - apis/userprofile/**
+      - .github/workflows/userprofile-CD.yml
 
 # Variables used in the jobs
 env:
   registry: openhack9iw8z9x2acr.azurecr.io
-  repository: devopsoh/api-poi
-  docker_path: apis/poi/web
-  webapp_name: openhack9iw8z9x2poi
+  repository: devopsoh/api-userprofile
+  docker_path: apis/userprofile
+  webapp_name: openhack9iw8z9x2userprofile
 
 jobs:
   docker_build_and_push:

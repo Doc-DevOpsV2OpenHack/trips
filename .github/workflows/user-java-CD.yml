@@ -1,17 +1,17 @@
-name: POI-CD
+name: user-java-CD
 on:
   push:
     branches: [master, ch4]
     paths:
-      - apis/poi/**
-      - .github/workflows/POI-CD.yml
+      - apis/user-java/**
+      - .github/workflows/user-java-CD.yml
 
 # Variables used in the jobs
 env:
   registry: openhack9iw8z9x2acr.azurecr.io
-  repository: devopsoh/api-poi
-  docker_path: apis/poi/web
-  webapp_name: openhack9iw8z9x2poi
+  repository: devopsoh/api-user-java
+  docker_path: apis/user-java
+  webapp_name: openhack9iw8z9x2userjava
 
 jobs:
   docker_build_and_push:
