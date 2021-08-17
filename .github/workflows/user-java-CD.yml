@@ -1,0 +1,40 @@
+name: user-java-CD
+on:
+  push:
+    branches: [master, ch4]
+    paths:
+      - apis/user-java/**
+      - .github/workflows/user-java-CD.yml
+
+# Variables used in the jobs
+env:
+  registry: openhack9iw8z9x2acr.azurecr.io
+  repository: devopsoh/api-user-java
+  docker_path: apis/user-java
+
+jobs:
+  docker_build_and_push:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Docker login
+        run: docker login $registry -u ${{ secrets.ACR_USER }} -p ${{ secrets.ACR_KEY }}
+
+      - name: Docker build
+        run: docker build -t $registry/$repository:${{github.run_number}} --build-arg build_version=${{github.run_number}} $docker_path
+
+      - name: Docker Push
+        run: docker push $registry/$repository:${{github.run_number}}
+
+      - uses: nashmaniac/create-issue-action@v1.1
+        if: failure()
+        name: Create Issue Action
+        with:
+          title: Build Failed
+          token: ${{secrets.GITHUB_TOKEN}}
+          assignees: ${{github.actor}}
+          labels: worflow-failed
+          body: |
+            ${{ github.workflow }} Workflow failed for commit ${{github.sha}}
+            Build Log: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
