@@ -8,7 +8,7 @@ on:
 
 # Variables used in the jobs
 env:
-  registry_name: openhack9iw8z9x2acr.azurecr.io
+  registry_name: openhack9iw8z9x2acr
   repository: devopsoh/api-userprofile
   docker_path: apis/userprofile
   resource_group: openhack9iw8z9x2rg
@@ -20,7 +20,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Docker build
-        run: docker build -t ${{ registry_name }}.azurecr.io/$repository:${{github.run_number}} --build-arg build_version=${{github.run_number}} $docker_path
+        run: docker build -t ${{ registry_name }}.azurecr.io/$repository:${{ github.run_number }} --build-arg build_version=${{ github.run_number }} $docker_path
 
       - uses: azure/login@v1
         with:
