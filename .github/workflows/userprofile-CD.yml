@@ -1,4 +1,4 @@
-name: POI-CD
+name: userprofile-CD
 on:
   push:
     branches: [master, ch4]
