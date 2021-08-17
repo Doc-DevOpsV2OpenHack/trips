@@ -4,7 +4,7 @@ on:
     branches: [master, ch4]
     paths:
       - apis/trips/**
-      - .github/workflows/POI-CD.yml
+      - .github/workflows/trips-CD.yml
 
 # Variables used in the jobs
 env:
