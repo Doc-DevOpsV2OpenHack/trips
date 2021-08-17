@@ -20,7 +20,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Docker build
-        run: docker build -t ${{ registry_name }}.azurecr.io/$repository:${{ github.run_number }} --build-arg build_version=${{ github.run_number }} $docker_path
+        run: docker build -t ${{ env.registry_name }}.azurecr.io/$repository:${{ github.run_number }} --build-arg build_version=${{ github.run_number }} $docker_path
 
       - uses: azure/login@v1
         with:
@@ -30,10 +30,10 @@ jobs:
         uses: azure/CLI@v1
         with:
           inlineScript: |
-            az acr login --name ${{ registry_name }} --resource-group ${{ resource_group }}
+            az acr login --name $registry_name --resource-group $resource_group
 
       - name: Docker Push
-        run: docker push ${{ registry_name }}.azurecr.io/$repository:${{github.run_number}}
+        run: docker push ${{ env.registry_name }}.azurecr.io/$repository:${{github.run_number}}
 
       - uses: nashmaniac/create-issue-action@v1.1
         if: failure()
