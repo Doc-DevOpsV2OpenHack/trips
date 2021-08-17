@@ -1,13 +1,13 @@
 name: trips-CI
 on:
   pull_request:
-    branches: [master, ch3]
+    branches: [master]
     paths:
       - apis/trips/**
       - .github/workflows/trips-CI.yml
 
   push:
-    branches: [master, ch3]
+    branches: [ch3]
     paths:
       - apis/trips/**
       - .github/workflows/trips-CI.yml

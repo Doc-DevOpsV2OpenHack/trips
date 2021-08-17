@@ -1,13 +1,13 @@
 name: user-java-CI
 on:
   pull_request:
-    branches: [master, ch3]
+    branches: [master]
     paths:
       - apis/user-java/**
       - .github/workflows/user-java-CI.yml
 
   push:
-    branches: [master, ch3]
+    branches: [ch3]
     paths:
       - apis/user-java/**
       - .github/workflows/user-java-CI.yml
