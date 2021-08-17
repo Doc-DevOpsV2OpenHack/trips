@@ -1,4 +1,4 @@
-import com.fasterxml.jackson.annotation.JsonInclude;
+nope! com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.api.UserApiController;
 import io.swagger.model.Profile;
