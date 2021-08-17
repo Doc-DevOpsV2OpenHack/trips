@@ -47,5 +47,5 @@ jobs:
           assignees: ${{github.actor}}
           labels: worflow-failed
           body: |
-            ${{ githib.workflow }} Workflow failed for commit ${{github.sha}}
+            ${{ github.workflow }} Workflow failed for commit ${{github.sha}}
             Build Log: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
