@@ -18,20 +18,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Docker login
+        run: docker login $registry -u ${{ secrets.ACR_USER }} -p ${{ secrets.ACR_KEY }}
+
       - name: Docker build
-        run: docker build -t ${{ env.registry_name }}.azurecr.io/$repository:${{ github.run_number }} --build-arg build_version=${{ github.run_number }} $docker_path
-
-      - uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-      - name: Azure CLI script
-        uses: azure/CLI@v1
-        with:
-          inlineScript: az acr login --name $registry_name
+        run: docker build -t $registry/$repository:${{github.run_number}} --build-arg build_version=${{github.run_number}} $docker_path
 
       - name: Docker Push
-        run: docker push ${{ env.registry_name }}.azurecr.io/$repository:${{github.run_number}}
+        run: docker push $registry/$repository:${{github.run_number}}
 
       - uses: nashmaniac/create-issue-action@v1.1
         if: failure()
