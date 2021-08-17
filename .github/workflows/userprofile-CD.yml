@@ -8,9 +8,10 @@ on:
 
 # Variables used in the jobs
 env:
-  registry: openhack9iw8z9x2acr.azurecr.io
+  registry_name: openhack9iw8z9x2acr.azurecr.io
   repository: devopsoh/api-userprofile
   docker_path: apis/userprofile
+  resource_group: openhack9iw8z9x2rg
 
 jobs:
   docker_build_and_push:
@@ -18,14 +19,21 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Docker login
-        run: docker login $registry -u ${{ secrets.ACR_USER }} -p ${{ secrets.ACR_KEY }}
-
       - name: Docker build
-        run: docker build -t $registry/$repository:${{github.run_number}} --build-arg build_version=${{github.run_number}} $docker_path
+        run: docker build -t ${{ registry_name }}.azurecr.io/$repository:${{github.run_number}} --build-arg build_version=${{github.run_number}} $docker_path
+
+      - uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Azure CLI script
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+            az acr login --name ${{ registry_name }} --resource-group ${{ resource_group }}
 
       - name: Docker Push
-        run: docker push $registry/$repository:${{github.run_number}}
+        run: docker push ${{ registry_name }}.azurecr.io/$repository:${{github.run_number}}
 
       - uses: nashmaniac/create-issue-action@v1.1
         if: failure()
