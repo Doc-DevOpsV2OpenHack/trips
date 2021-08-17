@@ -28,8 +28,7 @@ jobs:
       - name: Azure CLI script
         uses: azure/CLI@v1
         with:
-          inlineScript: |
-            az acr login --name $registry_name --expose-token
+          inlineScript: az acr login --name $registry_name
 
       - name: Docker Push
         run: docker push ${{ env.registry_name }}.azurecr.io/$repository:${{github.run_number}}
