@@ -13,6 +13,7 @@ env:
   docker_path: apis/poi/web
   webapp_name: openhack9iw8z9x2poi
   resource_group: openhack9iw8z9x2rg
+  staging_url: https://openhack9iw8z9x2poi-staging.azurewebsites.net
 
 jobs:
   docker_build_and_push:
@@ -55,12 +56,19 @@ jobs:
         with:
           app-name: ${{ env.webapp_name }}
           images: ${{ env.registry }}/${{ env.repository }}:${{github.run_number}}
-          slot: staging
+          slot-name: staging
 
   production_deploy:
     runs-on: ubuntu-latest
     needs: staging_deploy
     steps:
+      - name: Run Validation script
+        run: |
+          pwd
+          ls -la
+          chmod +x ./.github/build/healthcheck.sh
+          ./.github/build/healthcheck.sh -i ${{ env.staging_url }}
+
       - name: Azure authentication
         uses: azure/login@v1
         with:
