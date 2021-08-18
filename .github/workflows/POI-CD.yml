@@ -65,9 +65,6 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS  }}
 
-      - name: Azure WebApp Production
-        uses: Azure/webapps-deploy@v2
-        with:
-          app-name: ${{ env.webapp_name }}
-          images: ${{ env.registry }}/${{ env.repository }}:${{github.run_number}}
-          slot: production
+      - name: Swap staging to production
+        run: |
+          az webapp deployment slot swap --name $webapp_name --resource-group $resource_group --slot staging --target-slot production
