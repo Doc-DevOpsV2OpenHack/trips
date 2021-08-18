@@ -12,6 +12,7 @@ env:
   repository: devopsoh/api-poi
   docker_path: apis/poi/web
   webapp_name: openhack9iw8z9x2poi
+  resource_group: openhack9iw8z9x2rg
 
 jobs:
   docker_build_and_push:
@@ -67,4 +68,4 @@ jobs:
 
       - name: Swap staging to production
         run: |
-          az webapp deployment slot swap --name $webapp_name --resource-group $resource_group --slot staging --target-slot production
+          az webapp deployment slot swap -n $webapp_name -g $resource_group --slot staging --target-slot production
