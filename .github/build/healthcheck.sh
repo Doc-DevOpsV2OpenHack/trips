@@ -5,7 +5,6 @@ declare hasUrl=""
 declare endpoint
 declare -i status200count=0
 
-
 usage() {
     cat <<END
     healthcheck.sh [-i] [-h] endpoint
@@ -31,7 +30,6 @@ while getopts "ih" opt; do
      ;;
   esac
 done
-
 shift $((OPTIND -1))
 
 if [[ $1 ]]; then
@@ -42,7 +40,6 @@ else
   exit 1 
 fi 
 
-
 healthcheck() {
     declare url=$1
     result=$(curl -i $url 2>/dev/null | grep HTTP/2)
@@ -52,8 +49,6 @@ healthcheck() {
 
 for i in {1..12}
 do
- # echo 'in check'
- # result='healthcheck $endpoint' 
   result=$(curl -i $endpoint 2>/dev/null | grep HTTP/2)
   declare status
   if [[ -z $result ]]; then 
@@ -67,7 +62,6 @@ do
     else
       echo "$timestamp | $status | $endpoint " 
     fi 
-    echo $status
     if [ $status -eq 200 ]; then
       ((status200count=status200count + 1))
 
@@ -75,7 +69,6 @@ do
           break
       fi
     fi
-
     sleep $duration
   fi
 done
@@ -84,12 +77,10 @@ if [ $status200count -gt 5 ]; then
   echo "API UP"
   # APISTATUS is a pipeline variable
   APISTATUS="Up"
-  # echo ::set-env name=APIPRODSTATUS::true
   echo "APIPRODSTATUS=true" >> $GITHUB_ENV
 else
   echo "API DOWN"
   APISTATUS="Down"
-  # echo ::set-env name=APIPRODSTATUS::false
   echo "APIPRODSTATUS=false" >> $GITHUB_ENV
   exit 1;
 fi
