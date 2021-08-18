@@ -1,7 +1,7 @@
 name: trips-CD
 on:
   push:
-    branches: [master, ch4]
+    branches: [master, ch5]
     paths:
       - apis/trips/**
       - .github/workflows/trips-CD.yml
@@ -12,6 +12,9 @@ env:
   repository: devopsoh/api-trips
   docker_path: apis/trips
   webapp_name: openhack9iw8z9x2trips
+  resource_group: openhack9iw8z9x2rg
+  staging_url_healthcheck: https://openhack9iw8z9x2trips-staging.azurewebsites.net/api/healthcheck/trips
+  production_url_healthcheck: https://openhack9iw8z9x2trips.azurewebsites.net/api/healthcheck/trips
 
 jobs:
   docker_build_and_push:
@@ -40,7 +43,7 @@ jobs:
             ${{ github.workflow }} Workflow failed for commit ${{github.sha}}
             Build Log: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
-  simple_deploy:
+  staging_deploy:
     runs-on: ubuntu-latest
     needs: docker_build_and_push
     steps:
@@ -49,8 +52,51 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS  }}
 
-      - name: Azure WebApp
+      - name: Start staging
+        run: |
+          az webapp start -g ${{ env.resource_group }} -n ${{ env.webapp_name }} -s staging
+
+      - name: Azure WebApp Staging
         uses: Azure/webapps-deploy@v2
         with:
           app-name: ${{ env.webapp_name }}
           images: ${{ env.registry }}/${{ env.repository }}:${{github.run_number}}
+          slot-name: staging
+
+  production_deploy:
+    runs-on: ubuntu-latest
+    needs: staging_deploy
+    steps:
+      - uses: actions/checkout@v2 # needed to get the script
+
+      - name: Run Validation script
+        run: |
+          chmod +x ./.github/build/healthcheck.sh
+          ./.github/build/healthcheck.sh -i ${{ env.staging_url_healthcheck }}
+
+      - name: Azure authentication
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS  }}
+
+      - name: Swap staging to production
+        run: |
+          az webapp deployment slot swap -n $webapp_name -g $resource_group --slot staging --target-slot production
+
+      - name: Run Production Validation script
+        run: |
+          chmod +x ./.github/build/healthcheck.sh
+          ./.github/build/healthcheck.sh -i ${{ env.production_url_healthcheck }}
+
+      - name: stop staging slot
+        run: |
+          az webapp stop -g ${{ env.resource_group }} -n ${{ env.webapp_name }} -s staging
+          echo "staging slot stopped"
+
+      - name: display deployments
+        if: always()
+        run: |
+          echo "Staging Slot Image"
+          az webapp show  -g ${{ env.resource_group }} -n ${{ env.webapp_name }} -s staging --query siteConfig.linuxFxVersion
+          echo "Production Slot Image"
+          az webapp show  -g ${{ env.resource_group }} -n ${{ env.webapp_name }} --query siteConfig.linuxFxVersion
