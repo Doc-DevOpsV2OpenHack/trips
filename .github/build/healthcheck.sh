@@ -5,7 +5,43 @@ declare hasUrl=""
 declare endpoint
 declare -i status200count=0
 
-endpoint=$1
+
+usage() {
+    cat <<END
+    healthcheck.sh [-i] [-h] endpoint
+    
+    Report the health status of the endpoint
+    -i: include Uri for the format
+    -h: help
+END
+}
+
+while getopts "ih" opt; do 
+  case $opt in 
+    i)
+      hasUrl=true
+      ;;
+    h) 
+      usage
+      exit 0
+      ;;
+    \?)
+     echo "Unknown option: -${OPTARG}" >&2
+     exit 1
+     ;;
+  esac
+done
+
+shift $((OPTIND -1))
+
+if [[ $1 ]]; then
+  endpoint=$1
+else
+  echo "Please specify the endpoint."
+  usage
+  exit 1 
+fi 
+
 
 healthcheck() {
     declare url=$1
