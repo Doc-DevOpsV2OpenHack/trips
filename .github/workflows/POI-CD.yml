@@ -51,6 +51,10 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS  }}
 
+      - name: Start staging
+        run: |
+          az webapp start -g ${{ env.resource_group }} -n ${{ env.webapp_name }} -s staging
+
       - name: Azure WebApp Staging
         uses: Azure/webapps-deploy@v2
         with:
