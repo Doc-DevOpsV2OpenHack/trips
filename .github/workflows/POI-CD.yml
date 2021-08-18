@@ -94,8 +94,9 @@ jobs:
           echo "staging slot stopped"
 
       - name: display deployments
+        if: always()
         run: |
           echo "Staging Slot Image"
           az webapp show  -g ${{ env.resource_group }} -n ${{ env.webapp_name }} -s staging --query siteConfig.linuxFxVersion
           echo "Production Slot Image"
-          az webapp show  -g ${{ env.resource_group }} -n ${{ env.webapp_name }} -s staging --query siteConfig.linuxFxVersion
+          az webapp show  -g ${{ env.resource_group }} -n ${{ env.webapp_name }} --query siteConfig.linuxFxVersion
