@@ -1,12 +1,11 @@
 #!/bin/bash
 
-declare -i duration=10
+declare -i duration=
 declare hasUrl=""
 declare endpoint
 declare -i status200count=0
 
-# Paste the webapp site you want to monitor
-endpoint='https://openhackflo1xyl7poi-staging.azurewebsites.net/api/healthcheck/poi'
+endpoint=$1
 
 healthcheck() {
     declare url=$1
@@ -23,7 +22,7 @@ do
   declare status
   if [[ -z $result ]]; then 
     status="N/A"
-    echo "Site not found"
+    echo "Site not found: $endpoint"
   else
     status=${result:7:3}
     timestamp=$(date "+%Y%m%d-%H%M%S")
@@ -49,10 +48,12 @@ if [ $status200count -gt 5 ]; then
   echo "API UP"
   # APISTATUS is a pipeline variable
   APISTATUS="Up"
-  echo ::set-env name=APIPRODSTATUS::true
+  # echo ::set-env name=APIPRODSTATUS::true
+  echo "APIPRODSTATUS=true" >> $GITHUB_ENV
 else
   echo "API DOWN"
   APISTATUS="Down"
-  echo ::set-env name=APIPRODSTATUS::false
+  # echo ::set-env name=APIPRODSTATUS::false
+  echo "APIPRODSTATUS=false" >> $GITHUB_ENV
   exit 1;
 fi

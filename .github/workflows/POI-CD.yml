@@ -66,8 +66,6 @@ jobs:
 
       - name: Run Validation script
         run: |
-          pwd
-          ls -la
           chmod +x ./.github/build/healthcheck.sh
           ./.github/build/healthcheck.sh -i ${{ env.staging_url }}
 
