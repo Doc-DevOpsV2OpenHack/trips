@@ -67,7 +67,7 @@ jobs:
       - name: Run Validation script
         run: |
           chmod +x ./.github/build/healthcheck.sh
-          ./.github/build/healthcheck.sh -i ${{ env.staging_url }}
+          ./.github/build/healthcheck.sh -i ${{ env.staging_url_healthcheck }}
 
       - name: Azure authentication
         uses: azure/login@v1
