@@ -14,6 +14,7 @@ env:
   webapp_name: openhack9iw8z9x2poi
   resource_group: openhack9iw8z9x2rg
   staging_url_healthcheck: https://openhack9iw8z9x2poi-staging.azurewebsites.net/api/healthcheck/poi
+  production_url_healthcheck: https://openhack9iw8z9x2poi.azurewebsites.net/api/healthcheck/poi
 
 jobs:
   docker_build_and_push:
@@ -81,3 +82,20 @@ jobs:
       - name: Swap staging to production
         run: |
           az webapp deployment slot swap -n $webapp_name -g $resource_group --slot staging --target-slot production
+
+      - name: Run Production Validation script
+        run: |
+          chmod +x ./.github/build/healthcheck.sh
+          ./.github/build/healthcheck.sh -i ${{ env.production_url_healthcheck }}
+
+      - name: stop staging slot
+        run: |
+          az webapp stop -g ${{ env.resource_group }} -n ${{ env.webapp_name }} -s staging
+          echo "staging slot stopped"
+
+      - name: display deployments
+        run: |
+          echo "Staging Slot Image"
+          az webapp show  -g ${{ env.resource_group }} -n ${{ env.webapp_name }} -s staging --query siteConfig.linuxFxVersion
+          echo "Production Slot Image"
+          az webapp show  -g ${{ env.resource_group }} -n ${{ env.webapp_name }} -s staging --query siteConfig.linuxFxVersion
