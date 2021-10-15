@@ -28,13 +28,21 @@ namespace poi.Controllers
         public IActionResult Get()
         {
             _logger.LogInformation(LoggingEvents.Healthcheck, "Healthcheck Requested");
-
-            var key = "DefaultEndpointsProtocol=https;AccountName=cookiebarrestorage;AccountKey=Vjmn56K0mAn6NQDWAI3Pe0VoTpeH6fJFOwB/Ohh9viQ9pyVucL1baFINAQOvYB+7bCrHylZFkvazBtXgaIVlLA==;EndpointSuffix=core.windows.net";
-            string[] passwords = { "Pa$$w0rd1", "Pa$$w0rd2", key };
-
-            System.IO.File.WriteAllLines("./passwords.txt", passwords);
             return Ok(new Healthcheck());
         }
+
+        [HttpPost]
+        [Produces("application/json", Type = typeof(Healthcheck))]
+        public IActionResult Post()
+        {
+            var cn = new System.Data.SqlClient.SqlConnection("Server=(local);UserId=sa;Password=PA$$W0rd");
+            var sql = "SELECT CompanyName from customers where CustomerID = '" + Request.Form["customerId"] + "'";
+            var cmd = new System.Data.SqlClient.SqlCommand(sql, cn);
+
+            var name = cmd.ExecuteScalar();
+            return Ok(name);
+        }
+
     }
 
 }

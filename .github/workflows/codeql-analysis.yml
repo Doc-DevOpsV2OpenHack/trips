@@ -9,7 +9,7 @@
 # the `language` matrix defined below to confirm you have the correct set of
 # supported CodeQL languages.
 #
-name: "CodeQL C#"
+name: "CodeQL"
 
 on:
   push:
@@ -60,7 +60,7 @@ jobs:
         uses: github/codeql-action/autobuild@v1
 
       - if: matrix.language == 'go'
-        name: auto build CS
+        name: auto build go
         uses: github/codeql-action/autobuild@v1
 
       - name: Perform CodeQL Analysis
