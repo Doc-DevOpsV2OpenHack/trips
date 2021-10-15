@@ -15,15 +15,9 @@ name: "CodeQL Go"
 on:
   push:
     branches: [ master ]
-    paths:
-      - apis/trips/**
-      - .github/workflows/codeql-analysis-go.yml
   pull_request:
     # The branches below must be a subset of the branches above
     branches: [ master ]
-    paths:
-      - apis/trips/**
-      - .github/workflows/codeql-analysis-go.yml
   schedule:
     - cron: '24 4 * * 5'
     
