@@ -76,7 +76,7 @@ jobs:
         java-version: 1.8
     - name: Build user-java
       run: |
-        cd apis/usedr-java
+        cd apis/user-java
         mvn -B package --file pom.xml
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
