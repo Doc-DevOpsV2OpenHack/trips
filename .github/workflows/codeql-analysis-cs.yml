@@ -15,15 +15,9 @@ name: "CodeQL C#"
 on:
   push:
     branches: [ master ]
-    paths:
-      - apis/poi/**
-      - .github/workflows/codeql-analysis-cs.yml
   pull_request:
     # The branches below must be a subset of the branches above
     branches: [ master ]
-    paths:
-      - apis/poi/**
-      - .github/workflows/codeql-analysis-cs.yml
   schedule:
     - cron: '24 4 * * 5'
     
