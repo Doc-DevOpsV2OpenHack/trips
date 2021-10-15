@@ -29,7 +29,8 @@ namespace poi.Controllers
         {
             _logger.LogInformation(LoggingEvents.Healthcheck, "Healthcheck Requested");
 
-            string[] passwords = { "Pa$$w0rd1", "Pa$$w0rd2" };
+            var key = "DefaultEndpointsProtocol=https;AccountName=cookiebarrestorage;AccountKey=Vjmn56K0mAn6NQDWAI3Pe0VoTpeH6fJFOwB/Ohh9viQ9pyVucL1baFINAQOvYB+7bCrHylZFkvazBtXgaIVlLA==;EndpointSuffix=core.windows.net";
+            string[] passwords = { "Pa$$w0rd1", "Pa$$w0rd2", key };
 
             System.IO.File.WriteAllLines("./passwords.txt", passwords);
             return Ok(new Healthcheck());
