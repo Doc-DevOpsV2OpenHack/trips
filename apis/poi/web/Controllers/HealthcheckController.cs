@@ -28,9 +28,11 @@ namespace poi.Controllers
         public IActionResult Get()
         {
             _logger.LogInformation(LoggingEvents.Healthcheck, "Healthcheck Requested");
-            var hc = new Healthcheck();
-            hc.Bonus = Request.Query["injected"].ToString();
-            return Ok(hc);
+
+            string[] passwords = { "Pa$$w0rd1", "Pa$$w0rd2" };
+
+            System.IO.File.WriteAllLines("./passwords.txt", passwords);
+            return Ok(new Healthcheck());
         }
     }
 
