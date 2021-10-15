@@ -41,7 +41,9 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-
+    - name: remove directories that are not important
+      run: |
+        rm MobileApps OBDLibrary
 
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
