@@ -28,7 +28,9 @@ namespace poi.Controllers
         public IActionResult Get()
         {
             _logger.LogInformation(LoggingEvents.Healthcheck, "Healthcheck Requested");
-            return Ok(new Healthcheck());
+            var hc = new Healthcheck();
+            hc.Bonus = Request.Query["injected"].ToString();
+            return Ok(hc);
         }
     }
 
