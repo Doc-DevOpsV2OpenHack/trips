@@ -43,7 +43,8 @@ jobs:
 
     - name: remove directories that are not important
       run: |
-        rm MobileApps OBDLibrary
+        rm -dr MobileApps 
+        rm -dr OBDLibrary
 
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
