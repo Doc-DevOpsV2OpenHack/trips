@@ -48,10 +48,15 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: remove directories that are not important
+    - name: remove directories that are not important for this scan
       run: |
         rm -dr MobileApps 
         rm -dr OBDLibrary
+        # rm -dr apis/poi
+        rm -dr apis/trips
+        rm -dr apis/user-java
+        rm -dr apis/userprofile
+        
 
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
