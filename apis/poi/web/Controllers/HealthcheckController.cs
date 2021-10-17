@@ -28,6 +28,10 @@ namespace poi.Controllers
         public IActionResult Get()
         {
             _logger.LogInformation(LoggingEvents.Healthcheck, "Healthcheck Requested");
+            _logger.LogInformation(LoggingEvents.Healthcheck, "Adding tested messages");
+            _logger.LogInformation(LoggingEvents.Healthcheck, "Adding tested messages");
+            _logger.LogInformation(LoggingEvents.Healthcheck, "Adding tested messages");
+            _logger.LogInformation(LoggingEvents.Healthcheck, "Adding tested messages");
             return Ok(new Healthcheck());
         }
 
