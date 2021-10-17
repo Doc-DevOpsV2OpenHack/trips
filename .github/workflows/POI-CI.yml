@@ -41,7 +41,7 @@ jobs:
         
       - name: .Net Test
         working-directory: apis/poi/tests/UnitTests
-        run: dotnet test --verbosity normal /p:CollectCoverage=true /p:CoverletOutput=../../../../lcov/ /p:CoverletOutputFormat=lcov
+        run: dotnet test --verbosity normal /p:CollectCoverage=true /p:CoverletOutput=lcov/ /p:CoverletOutputFormat=lcov
         
       - name: Coveralls
         uses: coverallsapp/github-action@master
