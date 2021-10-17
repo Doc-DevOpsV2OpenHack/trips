@@ -48,7 +48,8 @@ jobs:
         working-directory: ./
         run: |
           dotnet test ./apis/poi/tests/UnitTests/UnitTests.csproj --verbosity normal /p:CollectCoverage=true /p:CoverletOutput=lcov/ /p:CoverletOutputFormat=lcov
-        
+          wget -cq https://coveralls.io/coveralls-linux.tar.gz -O - | tar -xz && ./coveralls --file apis/poi/tests/UnitTests/lcov/coverage.info 
+
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2.2.4
         with:
