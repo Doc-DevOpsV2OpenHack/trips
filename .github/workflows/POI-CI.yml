@@ -11,6 +11,8 @@ on:
     paths:
       - apis/poi/**
       - .github/workflows/POI-CI.yml
+  workflow_dispatch:
+    
 
 defaults:
   run:
