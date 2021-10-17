@@ -57,7 +57,6 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           path-to-lcov: apis/poi/tests/UnitTests/lcov/coverage.info
           flag-name: Unit
-          base-path: apis/poi
           
 
       - uses: nashmaniac/create-issue-action@v1.1
